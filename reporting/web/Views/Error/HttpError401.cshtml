@@ -6,7 +6,7 @@
     var globalAppSettings = _globalAppSettings;
     ViewBag.Title = "[[[Access Denied]]] - " + globalAppSettings.SystemSettings.OrganizationName;
     var cdnLink = globalAppSettings.SystemSettings.CDNLink.TrimEnd('/');
-    var ipAddress = Context.Connection.RemoteIpAddress;
+    var ipAddress = Context.Items["ClientIpAddress"]?.ToString() ?? Context.Connection.RemoteIpAddress?.ToString();
     var embedConfig = ViewBag.EmbedConfig as EmbedConfig;
     var requestUrl = new Uri(Context.Request.GetDisplayUrl());
     bool isEmbedSignature = Convert.ToBoolean(requestUrl.Query.ToLower().Contains("embed_signature"));

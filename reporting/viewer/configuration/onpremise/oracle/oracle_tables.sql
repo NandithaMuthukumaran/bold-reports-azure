@@ -264,7 +264,7 @@ CREATE TABLE BOLDRS_ScheduleDetail (
     IsGroupingEnabled CLOB,
     ScheduleRunStatus CLOB,
     ExportTypes VARCHAR2(500),
-    DataDrivenScheduleDetails CLOB NOT NULL,
+    DataDrivenScheduleDetails CLOB NULL,
     IsDataDrivenSchedule  NUMBER(1) DEFAULT 0 NOT NULL
 );
 
@@ -902,6 +902,31 @@ CREATE TABLE BOLDRS_ReportCopyLog (
     CopiedAt TIMESTAMP NOT NULL,
     Status VARCHAR2(50) NOT NULL,
     FailureReason CLOB NULL
+);
+
+CREATE TABLE BOLDRS_AICredentials (
+     Id VARCHAR2(36) PRIMARY KEY NOT NULL,
+     AIModel NUMBER NOT NULL,
+     AIConfiguration CLOB NOT NULL,
+     IsAIModel NUMBER(1) DEFAULT 1 NOT NULL,
+     IsAISummariesEnabledGlobally NUMBER(1) DEFAULT 0 NOT NULL,
+     EnableAIFeature NUMBER(1) DEFAULT 0 NOT NULL,
+     IsUnifiedAIAgentEnabled NUMBER(1) DEFAULT 0 NOT NULL,
+     CreatedById VARCHAR2(36) NOT NULL,
+     ModifiedById VARCHAR2(36) NOT NULL,
+     CreatedDate TIMESTAMP NOT NULL,
+     ModifiedDate TIMESTAMP NOT NULL,
+     IsActive NUMBER(1) NOT NULL
+);
+
+CREATE TABLE BOLDRS_AIChatConversations (
+    Id VARCHAR2(36) PRIMARY KEY NOT NULL,
+    UserId NUMBER NOT NULL,
+    ConversationName NVARCHAR2(255) NOT NULL,
+    ConversationData NCLOB NOT NULL,
+    CreatedDate TIMESTAMP NOT NULL,
+    ModifiedDate TIMESTAMP NOT NULL,
+    CONSTRAINT FK_AIChatConversations_UserId FOREIGN KEY (UserId) REFERENCES BOLDRS_User (Id) ON DELETE CASCADE
 );
 
 ---- PASTE INSERT Queries below this section --------
@@ -2200,3 +2225,5 @@ CREATE INDEX IX_BOLDRS_ScheduleLog_ScheduleId ON BOLDRS_ScheduleLog (ScheduleId)
 CREATE INDEX IX_BOLDRS_Item ON BOLDRS_Item (IsActive, ItemTypeId, ParentId, IsDraft);
 
 CREATE INDEX IX_BOLDRS_UserPermission ON BOLDRS_UserPermission (IsActive, UserId, ItemId, PermissionEntityId);
+
+CREATE INDEX IX_BOLDRS_AIChatConversations_UserId ON BOLDRS_AIChatConversations (UserId, ModifiedDate);

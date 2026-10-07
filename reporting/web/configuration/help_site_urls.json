@@ -346,5 +346,17 @@
     "BoldReportsUrl": "/enterprise-reporting/designer-guide/manage-content/reports/advanced-report-security/",
     "RedirectOnPremiseId": 4084,
     "RedirectCloudId": 8040
+  },
+  {
+    "UrlName": "AiService",
+    "BoldReportsUrl": "",
+    "RedirectOnPremiseId": null,
+    "RedirectCloudId": null
+  },
+  {
+    "UrlName": "AiModel",
+    "BoldReportsUrl": "",
+    "RedirectOnPremiseId": null,
+    "RedirectCloudId": null
   }
 ] 

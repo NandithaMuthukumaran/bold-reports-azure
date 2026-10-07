@@ -18,7 +18,8 @@
         SettingsScopes.NotificationSettings.ToString(),
         SettingsScopes.CORSPolicySettings.ToString(),
         SettingsScopes.Security.ToString(),
-        SettingsScopes.LookAndFeel.ToString()
+        SettingsScopes.LookAndFeel.ToString(),
+        SettingsScopes.AISettings.ToString()
     };
     var canShowAdminMenu = isAdmin || model[SettingsScopes.All] || model.Select(x => x).Where(x => scopeList.Contains(x.Key.ToString()) && x.Value == true).Count() > 1;
     var requestUrl = new Uri(Context.Request.GetDisplayUrl());
@@ -39,6 +40,7 @@
     var dataConnectorUrl = Url.Action("DataConnector", "Administration");
     var corsSettingsUrl = Url.Action("CORSSettings", "Administration");
     var securitySettingsUrl = Url.Action("SecuritySettings", "Administration");
+    var aiSettingsUrl = Url.Action("AISettings", "Administration");
     var isValidLicense = false;
     if(ServerAppConfig.IsSelfHosted && !bool.TryParse(ViewBag.IsValidLicense, out isValidLicense))
     {
@@ -172,6 +174,16 @@
                 }
             }
 
+            @if (isAdmin || (model != null && (model[SettingsScopes.All] || model[SettingsScopes.AISettings])))
+            {
+                <li class="mobile-hidden">
+                    <a id="ai-settings-link" class="admin-menu-item @(currentUrl.IndexOf(aiSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)" href="@aiSettingsUrl">
+                        <i class="su su-ai-model"></i>
+                        <span>[[[AI Settings]]]</span>
+                    </a>
+                </li>
+            }
+            
             @if (!ServerAppConfig.IsSelfHosted)
             {
                 @if (isAdmin || (model != null && model[SettingsScopes.All] || model[SettingsScopes.SupportSettings]))

@@ -1,4 +1,11 @@
 ﻿var validateUserpassword = {
+    p_policy_whitespace: function (userpassword) {
+        this.name = "p_policy_whitespace";
+        // Reject if password contains any whitespace characters
+        var re = /\s/;
+        if (!re.test(userpassword))
+            return "p_policy_whitespace"
+    },
     p_policy_uppercase: function (userpassword) {
         this.name = "p_policy_uppercase";
         var re = /^(?=.*[A-Z]).+$/;
@@ -78,7 +85,12 @@ $.validator.addMethod("notSameAsCurrent", function(value, element) {
 }, window.Server.App.LocalizationContent.PasswordSameAsCurrent);
 
 $.validator.addMethod("isValidPassword", function (value, element) {
+    // Reject immediately if password contains whitespace
+    if (/\s/.test(value)) {
+        return false;
+    }
     var validateMethods = new Array();
+    validateMethods.push(validateUserpassword.p_policy_whitespace);
     validateMethods.push(validateUserpassword.p_policy_uppercase);
     validateMethods.push(validateUserpassword.p_policy_lowercase);
     validateMethods.push(validateUserpassword.p_policy_number);
@@ -94,6 +106,7 @@ function passwordPolicyPopover(element, value) {
     var newPassword = $(".popover #password_policy_rules");
     newPassword.popover("show");
     var validateMethods = new Array();
+    validateMethods.push(validateUserpassword.p_policy_whitespace);
     validateMethods.push(validateUserpassword.p_policy_uppercase);
     validateMethods.push(validateUserpassword.p_policy_lowercase);
     validateMethods.push(validateUserpassword.p_policy_number);

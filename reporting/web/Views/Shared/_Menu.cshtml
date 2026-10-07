@@ -94,7 +94,7 @@
     var isMasterTenant = @Json.Serialize(isMasterTenant);
 </script>
 @{
-    var defaultMenuKeys = new[] { "Reports", "Data Sources", "Data Hub", "Dataset", "Schedules", "Publish", "Settings", "Users" };
+    var defaultMenuKeys = new[] { "Reports", "Data Sources", "AI", "Data Hub", "Dataset", "Schedules", "Publish", "Settings", "Users" };
     var menuTranslations = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
     foreach (var key in defaultMenuKeys)
     {
@@ -219,6 +219,8 @@
     var groupPermissionUrl = "@Url.Action("grouppermission", "permission")";
     var userPermissionUrl = "@Url.Action("userpermission", "permission")";
     var currentUrlLocalPath = "@requestUrl.LocalPath.ToLower()";
+    var aiPageUrl = "@Url.Action("Chat", "ReportingAi")";
+    var aiPagePath = "@Url.Action("Chat", "ReportingAi")";
     var boldETLUrl = @Json.Serialize(navigateETLUrl);
     var isAzureApplication = @Json.Serialize(ServerAppConfig.IsAzureApplication);
     var isMobile = @Json.Serialize(isMobile);

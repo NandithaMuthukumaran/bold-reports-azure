@@ -100,12 +100,12 @@
                     </a>
                 </li>
             }
-        @* <li class="admin-menu-item @(currentUrl.IndexOf(importExportSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
+        <li class="admin-menu-item @(currentUrl.IndexOf(importExportSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
             <a id="import-export-link" class="text-decoration-none" href="@importExportSettingsUrl" role="tab">
                 <i class="su su-download"></i>
                 <span>@T["Import/Export"]</span>
             </a>
-        </li> *@
+        </li>
         <li class="admin-menu-item @(currentUrl.IndexOf(additionalSettingsUrl, StringComparison.CurrentCultureIgnoreCase) > -1 ? "active" : string.Empty)">
                 <a id="additional-settings-link" class="text-decoration-none" href="@additionalSettingsUrl" role="tab">
                 <i class="su su-nav-settings"></i>

@@ -143,12 +143,17 @@ $(document).ready(function () {
 
 
 function IsValidPassword(password) {
+    // Reject if password contains any whitespace characters
+    if (/\s/.test(password)) {
+        return false;
+    }
     return passwordRegex.test(password);
 }
 
 function showPasswordPolicy() {
     var value = $("#register-password").val();
     var validateMethods = new Array();
+    validateMethods.push(validateUserpassword.p_policy_whitespace);
     validateMethods.push(validateUserpassword.p_policy_uppercase);
     validateMethods.push(validateUserpassword.p_policy_lowercase);
     validateMethods.push(validateUserpassword.p_policy_number);

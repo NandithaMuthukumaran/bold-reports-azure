@@ -16,6 +16,8 @@
     var categoryName = HttpUtility.HtmlDecode(itemDetails.CategoryName);
     var categoryId = itemDetails.CategoryId;
     var isDraft = itemDetails.IsDraft;
+    var isSelfHosted = ServerAppConfig.IsSelfHosted;
+    var baseUrl = globalAppSettings.SystemSettings.BaseUrl;
     var CanWrite = permissionDetails != null ? permissionDetails[0].CanWrite : false;
 #if (BoldReportsCloud)
     var designerServiceUrl = globalAppSettings.SystemSettings.ReportServiceEndPoint.TrimEnd('/');
@@ -39,6 +41,7 @@
     <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/report-xml-editor.min.js" integrity="@IntegrityTagHelper.GetIntegrity("wwwroot/cdn/scripts/report-xml-editor.min.js")" crossorigin="anonymous"></script>
     <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/essentialjs/v2.0/bold.reportviewer.min.js"></script>
     <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/essentialjs/v2.0/bold.reportdesigner.min.js"></script>
+    <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/designercommon.min.js" integrity="@IntegrityTagHelper.GetIntegrity("wwwroot/cdn/scripts/designercommon.min.js")" crossorigin="anonymous"></script>
     <script asp-append-version="true" src="~/js/localizationcontent.js?c=@System.Globalization.CultureInfo.CurrentCulture"></script>
     <script nonce="@Context.Items["ScriptNonce"]">
         document.addEventListener("DOMContentLoaded", function () {
@@ -84,6 +87,7 @@
         createXmlToolbar("toolbar");
         var toolbar = document.getElementById("toolbar").ej2_instances[0];
         toolbar.enableItems([0, 1], false);
+        var rootUrl = "@baseUrl";
 
         window.addEventListener("beforeunload", function (e) {
             if (shouldRunBeforeUnload) {
@@ -107,6 +111,25 @@
             editor.setOption("readOnly", "nocursor");
             toolbar.disable(true);
             ejs.popups.showSpinner(document.getElementById('editor-container'));
+            var headers = {
+                'reportDesignerToken': reportDesignerToken,
+                'ServerUrl': "@reportServerApiUrl",
+                'ReportId': "@itemId"
+            };
+
+            if (@isSelfHosted.ToString().ToLower()) {
+                publishRequest(headers, editedXmlContent);
+            } else {
+                getAccessToken(function (token) {
+                    if (token) {
+                        headers.serviceAuthorizationToken = token;
+                    }
+                    publishRequest(headers, editedXmlContent);
+                });
+            }
+        }
+
+        function publishRequest(headers, editedXmlContent) {
             $.ajax({
                 url: "@reportServiceUrl",
                 type: 'POST',
@@ -114,11 +137,7 @@
                 crossDomain: true,
                 contentType: 'application/json; charset=utf-8',
                 dataType: 'json',
-                headers: {
-                    'reportDesignerToken': reportDesignerToken,
-                    'ServerUrl': "@reportServerApiUrl",
-                    'ReportId': "@itemId"
-                },
+                headers: headers,
                 data: JSON.stringify({
                     designerAction: "saveServerReport",
                     reportInfo: reportInfo,
@@ -151,7 +170,6 @@
                 }
             });
         }
-
 
         function getDataSourceMap(xmlString) {
             let mappingInfo = [];

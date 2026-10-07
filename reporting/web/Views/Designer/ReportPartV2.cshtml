@@ -182,6 +182,7 @@
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/essentialjs/v2.0/bold.reportviewer.min.js"></script>
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/essentialjs/v2.0/bold.reportdesigner.min.js"></script>
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/report-designer-service.js" integrity="@IntegrityTagHelper.GetIntegrity("wwwroot/cdn/scripts/report-designer-service.js")" crossorigin="anonymous"></script>
+            <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/designercommon.js" integrity="@IntegrityTagHelper.GetIntegrity("wwwroot/cdn/scripts/designercommon.js")" crossorigin="anonymous"></script>
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/extensions/barcode.reportitem.js"></script>
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/extensions/extension.config.js"></script>
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/extensions/qrbarcode.reportitem.js"></script>
@@ -197,6 +198,7 @@
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/essentialjs/v2.0/bold.reportviewer.min.js"></script>
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/essentialjs/v2.0/bold.reportdesigner.min.js"></script>
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/report-designer-service.min.js" integrity="@IntegrityTagHelper.GetIntegrity("wwwroot/cdn/scripts/report-designer-service.min.js")" crossorigin="anonymous"></script>
+            <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/cdn/scripts/designercommon.min.js" integrity="@IntegrityTagHelper.GetIntegrity("wwwroot/cdn/scripts/designercommon.min.js")" crossorigin="anonymous"></script>
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/extensions/barcode.reportitem.js"></script>
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/extensions/extension.config.js"></script>
             <script nonce="@Context.Items["ScriptNonce"]" asp-append-version="true" src="@reportServerResourceUrl/extensions/qrbarcode.reportitem.js"></script>
@@ -389,6 +391,7 @@
         var isEditReport = false;
         var relativeDateTimer = null;
         var reportPartNameTooltip = null;
+        var rootUrl = "@baseUrl";
         var reportPartId = "@ViewBag.ReportPartId";
         var reportPartName = decodeHtmlAsString("@reportPartName");
         var datasetName = "@ViewBag.datasetId";
@@ -445,7 +448,16 @@
             loadCustomFonts();
             renderDesignerHeader();
             refreshReportDesignerFooter();
-            renderDesigner();
+
+            if (!@isSelfHosted.ToString().ToLower())
+            {
+                getAccessToken(function (token) {
+                    renderDesigner(token || null);
+                });
+            } else {
+                renderDesigner(null);
+            }
+
             $(window).resize(refreshReportDesignerFooter);
         });
 
@@ -457,7 +469,7 @@
             $("#container").width($(window).width());
         }
 
-        function renderDesigner() {
+        function renderDesigner(token) {
             $(document.body).bind('submit', $.proxy(this.formSubmit, this));
             $(window).bind('beforeunload', $.proxy(this.windowUnload, this));
             var datasetPermission = noPermission;
@@ -545,6 +557,10 @@
                 enableParameterOperator: enableParameterOperator
             };
 
+            if (token)
+            {
+                designerModel.serviceAuthorizationToken = token;
+            }
             var designer = new boldReportDesigner($('#' + controlId), designerModel);
         }
 

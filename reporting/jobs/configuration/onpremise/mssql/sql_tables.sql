@@ -906,7 +906,30 @@ CREATE TABLE [BOLDRS_ReportCopyLog](
     [FailureReason] [nvarchar](max) NULL)
 ;
 
+CREATE TABLE [BOLDRS_AICredentials](
+    [Id] [uniqueidentifier] PRIMARY KEY NOT NULL,
+    [AIModel] [int] NOT NULL,
+    [AIConfiguration] [nvarchar](max) NOT NULL,
+    [IsAIModel] [bit] NOT NULL DEFAULT 1,
+    [IsAISummariesEnabledGlobally] [bit] NOT NULL DEFAULT 0,
+    [EnableAIFeature] [bit] NOT NULL DEFAULT 0,
+    [IsUnifiedAIAgentEnabled] [bit] NOT NULL DEFAULT 0,
+    [CreatedById] [uniqueidentifier] NOT NULL,
+    [ModifiedById] [uniqueidentifier] NOT NULL,
+    [CreatedDate] [datetime] NOT NULL,
+    [ModifiedDate] [datetime] NOT NULL,
+    [IsActive] [bit] NOT NULL)
+;
 
+CREATE TABLE [BOLDRS_AIChatConversations](
+	[Id] [uniqueidentifier] PRIMARY KEY NOT NULL,
+	[UserId] [int] NOT NULL,
+	[ConversationName] [nvarchar](255>) NOT NULL,
+	[ConversationData] [nvarchar](max) NOT NULL,
+	[CreatedDate] [datetime] NOT NULL,
+	[ModifiedDate] [datetime] NOT NULL
+)
+;
 ---- PASTE INSERT Queries below this section --------
 
 INSERT into [BOLDRS_ItemType] (Name,IsActive) VALUES (N'Category',1)
@@ -2161,6 +2184,9 @@ ALTER TABLE [BOLDRS_ReportCopyLog] ADD FOREIGN KEY([CopiedByUserId]) REFERENCES 
 ALTER TABLE [BOLDRS_ReportCopyLog] ADD FOREIGN KEY([SourceItemId]) REFERENCES [BOLDRS_Item] ([Id])
 ;
 
+ALTER TABLE [BOLDRS_AIChatConversations] ADD CONSTRAINT [FK_AIChatConversations_UserId] FOREIGN KEY([UserId]) REFERENCES [BOLDRS_User] ([Id]) ON DELETE CASCADE
+;
+
 CREATE NONCLUSTERED INDEX [IX_BOLDRS_ScheduleDetail_ScheduleId] ON [BOLDRS_ScheduleDetail]([ScheduleId]) WITH (ONLINE = ON)
 
 CREATE NONCLUSTERED INDEX [IX_BOLDRS_ScheduleLog_ScheduleId] ON [BOLDRS_ScheduleLog] ([ScheduleId]) INCLUDE ([ExecutedDate], [ScheduleStatusId]) WITH (ONLINE = ON)
@@ -2168,3 +2194,6 @@ CREATE NONCLUSTERED INDEX [IX_BOLDRS_ScheduleLog_ScheduleId] ON [BOLDRS_Schedule
 CREATE NONCLUSTERED INDEX [IX_BOLDRS_Item] ON [BOLDRS_Item] ([IsActive], [ItemTypeId], [ParentId], [IsDraft]) INCLUDE ([CreatedById], [CreatedDate]) WITH (ONLINE = ON)
 
 CREATE NONCLUSTERED INDEX [IX_BOLDRS_UserPermission] ON [BOLDRS_UserPermission] ([IsActive], [UserId], [ItemId], [PermissionEntityId]) INCLUDE ([PermissionAccessId]) WITH (ONLINE = ON)
+
+CREATE NONCLUSTERED INDEX [IX_BOLDRS_AIChatConversations_UserId] ON [BOLDRS_AIChatConversations] ([UserId], [ModifiedDate]) WITH (ONLINE = ON)
+;

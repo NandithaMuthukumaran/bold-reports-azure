@@ -47,6 +47,8 @@
     var isSandbox = ServerAppConfig.Sandbox.Reports.Enabled;
     var showTour = globalAppSettings.SystemSettings.ShowApplicationTour;
     var isReportPage = requestUrl.ToString().IndexOf("/reports", StringComparison.CurrentCultureIgnoreCase) > 0;
+    //The onboarding questionnaire is asked on the report pages until the user answers or skips it, and always opens before the application tour.
+    var showOnBoarding = requestUrl.IndexOf("/reports", StringComparison.CurrentCultureIgnoreCase) >= 0;
     var GoogleTagManagerHeadScript = ServerAppConfig.GoogleTagManagerHeadScript;
     var GoogleTagManagerBodyScript = ServerAppConfig.GoogleTagManagerBodyScript;
 }
@@ -496,6 +498,11 @@
     {
         @await Html.PartialAsync("~/Views/Items/_CreateItemMenu.cshtml", ViewBag.ItemAddOptions != null ? ViewBag.ItemAddOptions as Dictionary<ItemType, bool> : new Dictionary<ItemType, bool>())
         @await Html.PartialAsync("~/Views/Notification/_UserNotificationPartial.cshtml")
+        //The onboarding questionnaire, its dialog and scripts are only for sandbox (free tier) sites.
+        if (isSandbox)
+        {
+            @await Html.PartialAsync("~/Views/OnBoard/_OnBoardDialog.cshtml", showOnBoarding)
+        }
     }
     @*@Html.Partial("~/Views/DataSourceDesigner/_Connection.cshtml")*@
     @if ((absolutePath == "/" ||

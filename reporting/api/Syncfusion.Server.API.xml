@@ -731,6 +731,16 @@
             <param name="reportPartId">Item ID of Report Part</param>
             <returns>The response is sent as ApiResponse object</returns>
         </member>
+        <member name="M:Syncfusion.Server.API.Controllers.ReportServer.ReportControlApiController.Data(Syncfusion.Server.Base.DataClasses.ApiReportData)">
+            <summary>
+            Get data from provided report name
+            </summary>
+        </member>
+        <member name="M:Syncfusion.Server.API.Controllers.ReportServer.ReportControlApiController.Schema(Syncfusion.Server.Base.DataClasses.ApiReportData)">
+            <summary>
+            Get schema from provided report name
+            </summary>
+        </member>
         <member name="M:Syncfusion.Server.API.Controllers.ReportServer.ReportServerApiController.DownloadDataSource(Syncfusion.Server.Base.DataClasses.ItemRequest)">
             <summary>
             The method will get the data source location and convert the xml to bytes
@@ -1283,6 +1293,16 @@
             <param name="isDecryptPassword">isDecryptPassword default value false</param>
             <param name="itemRequest">item request class object</param>
             <returns>Class type ItemResponse</returns>
+        </member>
+        <member name="M:Syncfusion.Server.API.Models.ReportServer.ReportData.GetReportData(Syncfusion.Server.Base.DataClasses.ApiReportData,System.Boolean)">
+            <summary>
+            Get the report data from provided Report ID or Report Name 
+            </summary>
+        </member>
+        <member name="M:Syncfusion.Server.API.Models.ReportServer.ReportData.ReportServerData(Syncfusion.Server.Base.DataClasses.ApiReportData)">
+            <summary>
+            Retrieving the ReportHelper Information from report server
+            </summary>
         </member>
         <member name="M:Syncfusion.Server.API.Models.SchedulerManagementModel.ValidateNoDataOptions(Syncfusion.Server.Base.DataClasses.ApiUpdateScheduleRequestV5)">
             <summary>

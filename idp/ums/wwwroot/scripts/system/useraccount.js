@@ -1,4 +1,8 @@
 ﻿$(document).ready(function () {
+    $.validator.addMethod("noWhitespace", function (value, element) {
+        return !(/\s/.test(value)) || value === "";
+    }, "Whitespace not allowed in password");
+
     $(".admin-account-fields-container").validate({
         focusInvalid: false,
         errorElement: "span",
@@ -57,6 +61,7 @@
             },
             password: {
                 required: true,
+                noWhitespace: true,
                 isValidPassword: true
             },
             confirm: {
@@ -91,6 +96,7 @@
             },
             password: {
                 required: window.Server.App.LocalizationContent.PasswordValidator,
+                noWhitespace: "Whitespace not allowed in password",
                 isValidPassword: window.Server.App.LocalizationContent.InvalidPassword
             },
             confirm: {

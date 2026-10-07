@@ -18,32 +18,35 @@
         "Order": 2,
         "Scheme": ""
       },
-      "DataHub": {
+      "AI": {
         "ShowMenu": true,
         "Order": 3
       },
-      "Dataset": {
+      "DataHub": {
         "ShowMenu": true,
-        "Order": 4,
-        "Scheme": ""
+        "Order": 4
       },
-      "Schedules": {
+      "Dataset": {
         "ShowMenu": true,
         "Order": 5,
         "Scheme": ""
       },
+      "Schedules": {
+        "ShowMenu": true,
+        "Order": 6,
+        "Scheme": ""
+      },
       "Publish": {
         "ShowMenu": true,
-        "Order": 6
+        "Order": 7
       },
       "Users": {
         "ShowMenu": true,
-        "Order": 7,
-        "RestrictManageProfile": false
+        "Order": 8
       },
       "Settings": {
         "ShowMenu": true,
-        "Order": 8
+        "Order": 9
       },
       "UserImport": [
         {

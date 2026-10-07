@@ -965,4 +965,52 @@
 		<Status>Status</Status>
 		<FailureReason>FailureReason</FailureReason>
 	</DB_ReportCopyLog>
+	<DB_UserOnBoarding>
+		<DB_TableName>UserOnBoarding</DB_TableName>
+		<Id>Id</Id>
+		<UserId>UserId</UserId>
+		<UserRole>UserRole</UserRole>
+		<Industry>Industry</Industry>
+		<CurrentTools>CurrentTools</CurrentTools>
+		<ExistingReports>ExistingReports</ExistingReports>
+		<ExistingReportCount>ExistingReportCount</ExistingReportCount>
+		<Audience>Audience</Audience>
+		<EmbedPlatforms>EmbedPlatforms</EmbedPlatforms>
+		<CustomerOrganizations>CustomerOrganizations</CustomerOrganizations>
+		<ViewerCount>ViewerCount</ViewerCount>
+		<DeploymentType>DeploymentType</DeploymentType>
+		<ReportTypes>ReportTypes</ReportTypes>
+		<DataSources>DataSources</DataSources>
+		<FirstGoal>FirstGoal</FirstGoal>
+		<Segment>Segment</Segment>
+		<Routing>Routing</Routing>
+		<IsCompleted>IsCompleted</IsCompleted>
+		<SkippedAtStep>SkippedAtStep</SkippedAtStep>
+		<CreatedDate>CreatedDate</CreatedDate>
+		<ModifiedDate>ModifiedDate</ModifiedDate>
+	</DB_UserOnBoarding>
+	<DB_AICredentials>
+    <DB_TableName>AICredentials</DB_TableName>
+		<Id>Id</Id>
+		<AIModel>AIModel</AIModel>
+		<AIConfiguration>AIConfiguration</AIConfiguration>
+		<CreatedById>CreatedById</CreatedById>
+		<ModifiedById>ModifiedById</ModifiedById>
+		<CreatedDate>CreatedDate</CreatedDate>
+		<ModifiedDate>ModifiedDate</ModifiedDate>
+		<IsActive>IsActive</IsActive>
+		<IsAIModel>IsAIModel</IsAIModel>
+		<EnableAIFeature>EnableAIFeature</EnableAIFeature>
+		<IsAISummariesEnabledGlobally>IsAISummariesEnabledGlobally</IsAISummariesEnabledGlobally>
+		<IsUnifiedAIAgentEnabled>IsUnifiedAIAgentEnabled</IsUnifiedAIAgentEnabled>
+    </DB_AICredentials>
+	<DB_AIChatConversations>
+    <DB_TableName>AIChatConversations</DB_TableName>
+		<Id>Id</Id>
+		<UserId>UserId</UserId>
+		<ConversationName>ConversationName</ConversationName>
+		<ConversationData>ConversationData</ConversationData>
+		<CreatedDate>CreatedDate</CreatedDate>
+		<ModifiedDate>ModifiedDate</ModifiedDate>
+    </DB_AIChatConversations>
 </DB_SyncUMP>

@@ -118,5 +118,21 @@
     "is_mandatory_service": true,
     "excluded_environments": [],
     "env_variable_version": "BOLD_SERVICES_REPORTING_VIEWER_VERSION"
+  },
+  {
+    "application_name": "Reports AI",
+    "application_url": "/reportsai",
+    "applicable_products": [ "reporting" ],
+    "is_mandatory_service": false,
+    "excluded_environments": [],
+    "env_variable_version": "BOLD_SERVICES_REPORTS_AI_VERSION"
+  },
+  {
+    "application_name": "Reports Mcp",
+    "application_url": "/reportsmcp",
+    "applicable_products": [ "reporting" ],
+    "is_mandatory_service": false,
+    "excluded_environments": [],
+    "env_variable_version": "BOLD_SERVICES_REPORTS_MCP_VERSION"
   }
 ]

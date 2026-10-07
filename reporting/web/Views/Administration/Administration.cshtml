@@ -11,6 +11,7 @@
     var isADPage = requestUrl.ToString().IndexOf("/administration/user-directory-settings", StringComparison.CurrentCultureIgnoreCase) > 0;
     var isEmailPage = requestUrl.ToString().IndexOf("e-mail-settings", StringComparison.CurrentCultureIgnoreCase) > 0;
     var isAccountsPage = requestUrl.ToString().IndexOf("user-settings", StringComparison.CurrentCultureIgnoreCase) > 0;
+    var isAiSettingsPage = requestUrl.ToString().IndexOf("/administration/ai-settings", StringComparison.CurrentCultureIgnoreCase) > 0;
     ViewBag.HelpSiteUrl = isEmailPage ? GlobalAppSettings.GetHelpSiteUrl(HelpSiteUrlNames.EmailSettings) : isADPage ? GlobalAppSettings.GetHelpSiteUrl(HelpSiteUrlNames.AzureAdSettings) :
          isAccountsPage ? GlobalAppSettings.GetHelpSiteUrl(HelpSiteUrlNames.AccountSiteSettings) : GlobalAppSettings.GetHelpSiteUrl(HelpSiteUrlNames.SiteSettings);
     var isSitesPage = requestUrl.ToString().IndexOf("/administration/site", StringComparison.CurrentCultureIgnoreCase) > 0 || requestUrl.ToString().IndexOf("/administration", StringComparison.CurrentCultureIgnoreCase) > 0;
@@ -33,14 +34,6 @@
 
 @section scripts{
 
-    <script nonce="@Context.Items["ScriptNonce"]">
-        serverApp.controller("adSettingsController", ["$scope", function ($scope) {
-            $scope.regex = '^(?!(ftp|https?):\/\/)([a-zA-Z0-9-_]+\.)*[a-zA-Z0-9][a-zA-Z0-9-]+(\.[a-z]{2,6})?(:\d{1,5})?(\/[a-zA-Z0-9]+[a-zA-Z0-9]*(\.[a-z]{2,8})?)*?$';
-            $scope.distinguishedNameRegex = /^(\w+[=]{1}[a-zA-Z0-9-_\s]+)([\,{1}]\w+[=]{1}[a-zA-Z0-9-_\s]+)*$/;
-        }]);
-
-    </script>
-
     <script nonce="@Context.Items["ScriptNonce"]" type="text/javascript">
     var dashboardServerResourceUrl = "@globalAppSettings.SystemSettings.CDNLink";
     var SystemSettingsProperties = @Json.Serialize(ViewBag.SystemSettings);
@@ -49,6 +42,7 @@
     var setLanguageUrl = "@Url.Action("SetLanguage", "Administration")";
     var isAzureApplication = "@isAzureApplication".toLowerCase();
     var isSelfHosted = "@ServerAppConfig.IsSelfHosted";
+    var saveAiSettingsUrl = "@Url.Action("SaveAICredentials", "Administration")";
 
     $(function() {
         $(document).click(function(e){
@@ -72,11 +66,11 @@
 @section MainSection{
     @await Html.PartialAsync("_AdminMenu")
     @await Html.PartialAsync("_DialogBox")
-    @if (isSitesPage && !isADPage)
+    @if (isSitesPage && !isADPage && !isAiSettingsPage)
     {
         @await Html.PartialAsync("_SiteSettings")
     }
-    @if (ServerAppConfig.IsSelfHosted)
+    @if (ServerAppConfig.IsSelfHosted && !isAiSettingsPage)
     {
         @await Html.PartialAsync("_EmailSettings")
         @await Html.PartialAsync("_AccountSettings")
@@ -85,7 +79,10 @@
     {
         @await Html.PartialAsync("_ActiveDirectorySettings")
     }
-
+    @if (isAiSettingsPage)
+    {
+        @await Html.PartialAsync("_AiSettings")
+    }
     @if (!ViewBag.ThirdPartyLogins || !ViewBag.WhiteLabel || !ViewBag.CustomDomain)
     {
         @await Html.PartialAsync("~/Views/UnlockFeatures/UnlockFeatures.cshtml")

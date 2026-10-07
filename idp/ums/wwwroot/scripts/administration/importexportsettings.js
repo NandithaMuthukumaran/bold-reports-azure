@@ -126,6 +126,7 @@ $(document).on("click", "#import-settings-button", function () {
                 window.location.reload();
             }
             else {
+                hideWaitingPopup('content-area');
                 try
                 {
                     $("#import-settings-button").attr("disabled", "disabled");
@@ -133,11 +134,12 @@ $(document).on("click", "#import-settings-button", function () {
                     if (Array.isArray(errorData) && errorData.length > 0) {
                         updateGrid(errorData);
                     }
+
+                    showErrorPopup(window.Server.App.LocalizationContent.ImportSettingsFailureMessage);
                 } catch (e)
                 {
                     showErrorPopup(window.Server.App.LocalizationContent.ImportSettingsFailureMessage);
                 }
-                hideWaitingPopup('content-area')
             }
         }
     });
@@ -177,13 +179,16 @@ $(document).on("click", "#importsettings-upload", function () {
                 $("#importsettings-upload").attr("disabled", true);
 
                 messageBox("", window.Server.App.LocalizationContent.FileUpload,
-                    window.Server.App.LocalizationContent.FileUplaodFailureStauts, "success", function () {
+                    window.Server.App.LocalizationContent.FileUplaodFailureStauts, "error", function () {
                         parent.onCloseMessageBox();
                     });
             }
         },
         error: function (xhr, status, error) {
-            alert("An error occurred: " + xhr.responseText);
+            messageBox("", window.Server.App.LocalizationContent.FileUpload,
+                window.Server.App.LocalizationContent.FileUplaodFailureStauts, "error", function () {
+                    parent.onCloseMessageBox();
+                });
         }
     });
 });
@@ -191,7 +196,7 @@ $(document).on("click", "#importsettings-upload", function () {
 function updateGrid(data) {
     data = data.filter(item => item.ErrorMessage && item.ErrorMessage.trim() !== "");
     data.forEach(item => {
-        item.ErrorMessage = `<ul class='no-padding'>${item.ErrorMessage}</ul>`;
+        item.ErrorMessage = `<ul class='no-padding' style='list-style-type: none; margin: 0;'>${item.ErrorMessage}</ul>`;
     });
 
     var userImportGrid = document.getElementById("import_setting_grid").ej2_instances[0];
@@ -202,7 +207,10 @@ function updateGrid(data) {
 }
 
 function showErrorPopup(message) {
-    messageBox("", window.Server.App.LocalizationContent.ImportSettings, message, "error", function () {
+    messageBox("", window.Server.App.LocalizationContent.ImportSettings, message, "error");
+    var closeButton = $("<input type='button' class='critical-action-button float-end' value='" + window.Server.App.LocalizationContent.CloseButton + "'></input>");
+    closeButton.click(function () {
         parent.onCloseMessageBox();
     });
+    $("#messageBox").find(".e-footer-content").html(closeButton);
 }

@@ -133,6 +133,10 @@ function IsValidName(validationType, inputString) {
 }
 
 function IsValidPassword(password) {
+    // Reject if password contains any whitespace characters
+    if (/\s/.test(password)) {
+        return false;
+    }
     if (passwordRegex.test(password)) {
         return true;
     }
@@ -144,6 +148,7 @@ function IsValidPassword(password) {
 function showPasswordPolicy() {
     var value = $("#new-password").val().trim();
     var validateMethods = new Array();
+    validateMethods.push(validateUserpassword.p_policy_whitespace);
     validateMethods.push(validateUserpassword.p_policy_uppercase);
     validateMethods.push(validateUserpassword.p_policy_lowercase);
     validateMethods.push(validateUserpassword.p_policy_number);

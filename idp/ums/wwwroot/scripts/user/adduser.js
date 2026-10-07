@@ -49,6 +49,10 @@ $(document).ready(function () {
         }
     }, window.Server.App.LocalizationContent.AvoidSpecailCharacters);
 
+    $.validator.addMethod("noWhitespace", function (value, element) {
+        return !(/\s/.test(value)) || value === "";
+    }, "Whitespace not allowed in password");
+
     $("#dialog-container").validate({
         errorElement: 'span',
         onkeyup: function (element, event) {
@@ -87,6 +91,7 @@ $(document).ready(function () {
             },
             "user-password": {
                 isRequired: true,
+                noWhitespace: true,
                 isUserPasswordValid: true
             },
         },
@@ -114,7 +119,8 @@ $(document).ready(function () {
                 isRequired: window.Server.App.LocalizationContent.FirstNameValidator
             },
             "user-password": {
-                isRequired: window.Server.App.LocalizationContent.PasswordValidator
+                isRequired: window.Server.App.LocalizationContent.PasswordValidator,
+                noWhitespace: "Whitespace not allowed in password"
             },
         }
     });

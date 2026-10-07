@@ -15,6 +15,7 @@
     var oauthKnownProvider = ViewBag.OAuthDetails?.OAuthAuthSettings?.GroupImportSettings?.KnownProviderType ?? KnownAuthProviders.None;
     var openIdKnownProvider = ViewBag.OpenIDSettings?.OIDCAuthSettings?.GroupImportSettings?.KnownProviderType ?? KnownAuthProviders.None;
     var responseType = ViewBag.OpenIDSettings?.OIDCAuthSettings?.ResponseType ?? "id_token";
+    var isOpenidSslValidationEnabled = ViewBag.OpenIDSettings?.OIDCAuthSettings?.EnableSslValidation ?? true;
 }
 
 @section styles{

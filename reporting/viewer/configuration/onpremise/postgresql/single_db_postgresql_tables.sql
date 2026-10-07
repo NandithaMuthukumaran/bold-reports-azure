@@ -924,6 +924,33 @@ CREATE TABLE BOLDRS_ReportCopyLog(
     FailureReason text NULL)
 ;
 
+CREATE TABLE BOLDRS_AICredentials(
+    Id uuid PRIMARY KEY NOT NULL,
+    SiteId uuid NOT NULL,
+    AIModel int NOT NULL,
+    AIConfiguration text NOT NULL,
+    IsAIModel smallint NOT NULL DEFAULT 1,
+    IsAISummariesEnabledGlobally smallint NOT NULL DEFAULT 0,
+    EnableAIFeature smallint NOT NULL DEFAULT 0,
+    IsUnifiedAIAgentEnabled smallint NOT NULL DEFAULT 0,
+    CreatedById uuid NOT NULL,
+    ModifiedById uuid NOT NULL,
+    CreatedDate timestamp NOT NULL,
+    ModifiedDate timestamp NOT NULL,
+    IsActive smallint NOT NULL)
+;
+
+CREATE TABLE BOLDRS_AIChatConversations(
+    Id uuid PRIMARY KEY NOT NULL,
+    SiteId uuid NOT NULL,
+    UserId int NOT NULL,
+    ConversationName varchar(255) NOT NULL,
+    ConversationData text NOT NULL,
+    CreatedDate timestamp NOT NULL,
+    ModifiedDate timestamp NOT NULL,
+    CONSTRAINT FK_AIChatConversations_UserId FOREIGN KEY (UserId) REFERENCES BOLDRS_User (Id) ON DELETE CASCADE)
+;
+
 ---- PASTE INSERT Queries below this section --------
 
 INSERT into BOLDRS_ItemType (Name,IsActive) VALUES (N'Category',1)
@@ -1262,6 +1289,8 @@ INSERT INTO BOLDRS_PermissionAccEntity (PermissionEntityId, PermissionAccessId, 
 INSERT INTO BOLDRS_PermissionAccEntity (PermissionEntityId, PermissionAccessId, IsActive) VALUES (2,5,1)
 ;
 INSERT INTO BOLDRS_PermissionAccEntity (PermissionEntityId, PermissionAccessId, IsActive) VALUES (3,5,1)
+;
+INSERT INTO BOLDRS_PermissionAccEntity (PermissionEntityId, PermissionAccessId, IsActive) VALUES (18,5,1)
 ;
 
 INSERT into BOLDRS_PermissionLogType (Name,IsActive) VALUES ( N'PermissionAdded',1)
@@ -2196,3 +2225,6 @@ CREATE INDEX IX_BOLDRS_ScheduleLog_ScheduleId ON BOLDRS_ScheduleLog (ScheduleId)
 CREATE INDEX IX_BOLDRS_Item ON BOLDRS_Item (IsActive, ItemTypeId, ParentId, IsDraft);
 
 CREATE INDEX IX_BOLDRS_UserPermission ON BOLDRS_UserPermission (IsActive, UserId, ItemId, PermissionEntityId);
+
+CREATE INDEX IX_BOLDRS_AIChatConversations_SiteUser ON BOLDRS_AIChatConversations (SiteId, UserId, ModifiedDate)
+;

@@ -17,9 +17,9 @@
         document.addEventListener("DOMContentLoaded", function () {
             var loginLogo = document.getElementById("loginLogo");
             if (loginLogo) {
-                loginLogo.addEventListener("error", function () {                  
+                loginLogo.addEventListener("error", function () {
                     this.src = defaultErrorImg;
-                });
+                }, { once: true });
             }
         });
     </script>

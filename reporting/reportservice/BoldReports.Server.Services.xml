@@ -339,6 +339,11 @@
             Gets the root folder name for the cloud storage provider.
             </summary>
         </member>
+        <member name="F:BoldReports.Server.Services.Storage.Providers.StorageProvider.DataProtectionKeyFileName">
+            <summary>
+            Gets the data-protection key file name for the storage provider.
+            </summary>
+        </member>
         <member name="M:BoldReports.Server.Services.Storage.Providers.StorageProvider.CreateProvider(BoldReports.Server.Services.StorageType,BoldReports.Server.Services.StorageAPIResponse)">
             <summary>
             Creates the active storage provider using the specified storage API response.
@@ -410,6 +415,12 @@
             </summary>
             <returns>The application data folder path.</returns>
         </member>
+        <member name="M:BoldReports.Server.Services.Storage.Providers.StorageProvider.GetDataProtectionKeyPath">
+            <summary>
+            Gets the data-protection key file path for the storage provider.
+            </summary>
+            <returns>The data-protection key path.</returns>
+        </member>
         <member name="M:BoldReports.Server.Services.Storage.Providers.StorageProvider.GetConfigJsonPath">
             <summary>
             Gets the configuration JSON file path.
@@ -421,6 +432,12 @@
             Gets the product JSON file path.
             </summary>
             <returns>The product JSON path.</returns>
+        </member>
+        <member name="M:BoldReports.Server.Services.Storage.Providers.StorageProvider.GetKnownDomainJsonPath">
+            <summary>
+            Gets the known domains JSON file path.
+            </summary>
+            <returns>The known domains JSON path.</returns>
         </member>
         <member name="M:BoldReports.Server.Services.Storage.Providers.StorageProvider.GetReportingConfigPath">
             <summary>

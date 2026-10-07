@@ -710,9 +710,15 @@ $(document).ready(function () {
         var isEnabled = $("#openidIsEnabled").is(":checked");
         var tokenStorage = $("#enable-openid-token-storage");
         var usePkce = $("#enable-openid-pkce");
+        var enableOpenId = $("#enable-ssl-validation-openidconnect");
         $("#openid-provider-name, #openid-image-upload-box .image-upload, #openid-authority, #openid-client-id, #openid-client-secret, #openid-identifier, #openid-logout-endpoint, #enable-openid-account-creation").prop("disabled", !isEnabled);
         tokenStorage.prop("disabled", !isEnabled);
         usePkce.prop("disabled", !(isEnabled && tokenStorage.is(":checked")));
+
+        if (enableOpenId.length) {
+            enableOpenId.prop("disabled", !isEnabled);
+        }
+
         if (!(isEnabled && tokenStorage.is(":checked"))) {
             usePkce.prop("checked", false);
         }
@@ -1525,6 +1531,7 @@ $(document).ready(function () {
                         LogoutUrl: $("input[name='openidLogoutUrl']").val().trim(),
                         GroupImportSettings: getGroupImportSettings("openid"),
                         CanCreateAccount: $("#enable-openid-account-creation").is(":checked"),
+                        EnableSslValidation: $("#enable-ssl-validation-openidconnect").length ? $("#enable-ssl-validation-openidconnect").is(":checked") : true,    
                         EnableTokenStorage: $("#enable-openid-token-storage").is(":checked"),
                         UsePkce: $("#enable-openid-pkce").is(":checked"),
                         ResponseType: document.getElementById("response-type-dropdown").ej2_instances[0].value

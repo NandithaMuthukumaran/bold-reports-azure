@@ -466,6 +466,48 @@
             Application Builder Extensions Class.
             </summary>
         </member>
+        <member name="T:Syncfusion.Server.Reports.Helpers.CacheManager">
+            <summary>
+            Provides an in-memory cache for short-lived access tokens.
+            </summary>
+        </member>
+        <member name="M:Syncfusion.Server.Reports.Helpers.CacheManager.AddToCache(System.String,System.String,System.TimeSpan)">
+            <summary>
+            Stores an access token in cache.
+            </summary>
+            <param name="key">Cache key.</param>
+            <param name="accessToken">Bearer token value without the scheme prefix.</param>
+            <param name="expiration">Expiration duration.</param>
+        </member>
+        <member name="M:Syncfusion.Server.Reports.Helpers.CacheManager.GetFromCache(System.String)">
+            <summary>
+            Gets a cached access token if it is still valid.
+            </summary>
+            <param name="key">Cache key.</param>
+            <returns>The cached token value or null.</returns>
+        </member>
+        <member name="M:Syncfusion.Server.Reports.Helpers.CacheManager.RemoveFromCache(System.String)">
+            <summary>
+            Removes a token from cache.
+            </summary>
+            <param name="key">Cache key.</param>
+        </member>
+        <member name="M:Syncfusion.Server.Reports.Helpers.CacheManager.IsInCache(System.String)">
+            <summary>
+            Determines whether the cache contains a non-expired entry.
+            </summary>
+            <param name="key">Cache key.</param>
+            <returns>True if an active cache entry exists.</returns>
+        </member>
+        <member name="T:Syncfusion.Server.Reports.Helpers.SimplePooledStreamManager">
+            <summary>
+            Supplies the response buffer used by i18n.Core's nugget-replacement middleware.
+            </summary>
+            <remarks>
+            Replaces i18n.Core's DefaultPooledStreamManager, which is hard-bound to the Microsoft.IO.RecyclableMemoryStream 2.x
+            GetStream signature and throws MissingMethodException under the 3.x version Microsoft.Graph requires transitively.
+            </remarks>
+        </member>
         <member name="M:Syncfusion.Server.Reports.ApplicationAuthorizationRequest.DefaultLicenseInitializationForViewerAndDesigner(Microsoft.AspNetCore.Http.IHttpContextAccessor)">
             <summary>
             License validation from Build team
@@ -697,6 +739,12 @@
         <member name="M:Syncfusion.Server.Reports.Models.ItemModel.BulkMultiTenantCopyAsync(System.Collections.Generic.IList{System.Guid},System.Collections.Generic.IList{Syncfusion.Server.Base.DataClasses.TenantCopyTarget},System.String,System.Net.Http.IHttpClientFactory,Syncfusion.Server.Base.Models.IPublishManagement)">
             <summary>
             Copies multiple reports to one or more tenants, producing one result row per report×tenant.
+            </summary>
+        </member>
+        <member name="T:Syncfusion.Server.Reports.Models.OnBoardRequest">
+            <summary>
+            Payload posted by the onboarding page (wwwroot/Scripts/OnBoard/OnBoard.js).
+            Routing is not accepted from the client; it is derived from these answers when saved.
             </summary>
         </member>
         <member name="M:Syncfusion.Server.Reports.Models.ScheduleManagement.DisableSchedule(System.Guid)">
