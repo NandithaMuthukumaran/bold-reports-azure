@@ -5518,7 +5518,7 @@
     "Bold.Licensing/15.1.10": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-ncmNXjja3C8P/KgulvLJRYw6cKfks9yZUsQE7/V7UQcoRFFLWg7WS5K6fPZNurJBW6VSUv+coVO8Iqsf0uuTFA==",
+      "sha512": "sha512-NyWpuvxD12rmE7yaOB86BioiZIJEyb1IuAuCbkTjYzPoh8VyJJFeo5FfbiUj5yBQlcEaF6irYeW5JTdQ4+ZWxQ==",
       "path": "bold.licensing/15.1.10",
       "hashPath": "bold.licensing.15.1.10.nupkg.sha512"
     },

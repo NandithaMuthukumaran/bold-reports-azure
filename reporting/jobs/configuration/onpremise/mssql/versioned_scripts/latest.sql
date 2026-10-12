@@ -16,7 +16,7 @@ CREATE TABLE [BOLDRS_AICredentials](
 CREATE TABLE [BOLDRS_AIChatConversations](
 	[Id] [uniqueidentifier] PRIMARY KEY NOT NULL,
 	[UserId] [int] NOT NULL,
-	[ConversationName] [nvarchar](255>) NOT NULL,
+	[ConversationName] [nvarchar](255) NOT NULL,
 	[ConversationData] [nvarchar](max) NOT NULL,
 	[CreatedDate] [datetime] NOT NULL,
 	[ModifiedDate] [datetime] NOT NULL
